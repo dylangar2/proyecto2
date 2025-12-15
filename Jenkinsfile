@@ -9,21 +9,18 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    script {
-                        def scannerHome = tool 'SonarScanner'
-                        bat """
-                        "${scannerHome}\\bin\\sonar-scanner.bat" ^
-                          -Dsonar.projectKey=proyecto2 ^
-                          -Dsonar.sources=. ^
-                          -Dsonar.host.url=http://localhost:9000
-                        """
-                    }
-                }
-            }
+       stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            bat '''
+            C:\ProgramData\sonar-scanner\bin\sonar-scanner.bat ^
+              -Dsonar.projectKey=proyecto2 ^
+              -Dsonar.sources=. ^
+              -Dsonar.host.url=http://localhost:9000
+            '''
         }
+    }
+}
 
         stage('Build Docker Image') {
             steps {
@@ -42,6 +39,5 @@ pipeline {
                 bat 'docker push dylan226/proyecto2:ci'
             }
         }
-
     }
 }
