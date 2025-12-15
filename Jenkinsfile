@@ -9,6 +9,19 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    bat """
+                    sonar-scanner ^
+                      -Dsonar.projectKey=proyecto2 ^
+                      -Dsonar.sources=. ^
+                      -Dsonar.host.url=http://localhost:9000
+                    """
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 bat 'docker-compose build'
@@ -27,17 +40,5 @@ pipeline {
             }
         }
 
-    }
-}
-stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('SonarQube') {
-            bat """
-            sonar-scanner ^
-              -Dsonar.projectKey=Proyecto2 ^
-              -Dsonar.sources=. ^
-              -Dsonar.host.url=http://localhost:9000
-            """
-        }
     }
 }
