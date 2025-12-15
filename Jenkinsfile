@@ -1,43 +1,17 @@
 pipeline {
     agent any
- 
-    environment {
-        COMPOSE_FILE = 'docker-compose.yml'
-    }
- 
+
     stages {
- 
-        stage('Checkout') {
+        stage('Build Docker Image') {
             steps {
-                checkout scm
+                bat 'docker-compose build'
             }
         }
- 
-        stage('Build Docker images') {
+
+        stage('Push Docker Image') {
             steps {
-                sh """
-                    echo "Construyendo imágenes..."
-                    docker-compose build
-                """
+                bat 'docker push dylan226/proyecto2:ci'
             }
-        }
- 
-        stage('Levantar contenedores') {
-            steps {
-                sh """
-                    echo "Levantando contenedores..."
-                    docker-compose up -d
-                """
-            }
-        }
-    }
- 
-    post {
-        always {
-            sh """
-                echo "Deteniendo contenedores..."
-                docker-compose down || true
-            """
         }
     }
 }
