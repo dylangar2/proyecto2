@@ -1,12 +1,10 @@
-FROM node:18-alpine
+FROM almalinux:8
 
-WORKDIR /app
+RUN dnf module reset nodejs -y \
+ && dnf module enable nodejs:16 -y \
+ && dnf install -y nodejs npm \
+ && dnf clean all
 
-COPY package*.json ./
-RUN npm install
+RUN npm install -g yarn
 
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+WORKDIR /workspace
