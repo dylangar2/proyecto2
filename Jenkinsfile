@@ -8,19 +8,19 @@ pipeline {
                 checkout scm
             }
         }
-
-       stage('SonarQube Analysis') {
+stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('SonarQube') {
             bat '''
-            C:\ProgramData\sonar-scanner\bin\sonar-scanner.bat ^
-              -Dsonar.projectKey=proyecto2 ^
-              -Dsonar.sources=. ^
-              -Dsonar.host.url=http://localhost:9000
+            C:\ProgramData\sonar-scanner\bin\sonar-scanner.bat
+            -Dsonar.projectKey=proyecto2
+            -Dsonar.sources=.
+            -Dsonar.host.url=http://localhost:9000
             '''
         }
     }
 }
+
 
         stage('Build Docker Image') {
             steps {
