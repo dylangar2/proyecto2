@@ -9,9 +9,10 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            steps {
-                bat 'docker push dylan226/proyecto2:ci'
-            }
-        }
+    steps {
+        bat '''
+        docker tag proyecto2-ci-1-full:latest dylan226/proyecto2:ci
+        docker push dylan226/proyecto2:ci
+        '''
     }
 }
