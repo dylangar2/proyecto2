@@ -29,3 +29,15 @@ pipeline {
 
     }
 }
+stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            bat """
+            sonar-scanner ^
+              -Dsonar.projectKey=Proyecto2 ^
+              -Dsonar.sources=. ^
+              -Dsonar.host.url=http://localhost:9000
+            """
+        }
+    }
+}
